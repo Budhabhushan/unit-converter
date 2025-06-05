@@ -1,7 +1,21 @@
 import streamlit as st
+from summarizer import summarize_text
 
-st.title("Welcome to GOD-ChatGPT")
+st.set_page_config(page_title="Text Summarizer")
 
-user_input = st.text_input("Play with me:")
+st.title("📝 Text Summarizer using LLM")
 
-st.write("You entred:", user_input)
+text_input = st.text_area("Enter text to summarize:", height=300)
+
+max_len = st.slider("Max summary length", 50, 300, 130)
+min_len = st.slider("Min summary length", 10, 100, 30)
+
+if st.button("Summarize"):
+    with st.spinner("Generating summary..."):
+        summary = summarize_text(
+            text_input,
+            max_length=max_len,
+            min_length=min_len
+        )
+        st.subheader("Summary:")
+        st.success(summary)
